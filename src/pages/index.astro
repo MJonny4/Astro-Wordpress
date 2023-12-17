@@ -1,6 +1,7 @@
 ---
-import '../styles/global.css'
-const title = 'Astro Title'
+import '../styles/global.css';
+import BlockRenderer from '../components/BlockRenderer.astro';
+
 const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
     method: 'POST',
     headers: {
@@ -8,6 +9,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
     },
     body: JSON.stringify({
         query: `query PageQuery {
+            cssVariables
             nodeByUri(uri: "/") {
                 ... on Page {
                     id
@@ -16,10 +18,9 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
             }
         }`,
     }),
-})
+});
 
-const { data } = await response.json()
-console.log(data.nodeByUri)
+const { data } = await response.json();
 ---
 
 <html lang="en">
@@ -29,8 +30,13 @@ console.log(data.nodeByUri)
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>Astro</title>
+        {
+            !!data.cssVariables && (
+                <style set:html={`:root{${data.cssVariables}}`} />
+            )
+        }
     </head>
     <body>
-        <h1 class="text-red-700 text-6xl">{title}</h1>
+        <BlockRenderer blocks={data.nodeByUri?.blocks || []} />
     </body>
 </html>
