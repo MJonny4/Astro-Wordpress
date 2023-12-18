@@ -1,0 +1,65 @@
+---
+import BlockRenderer from '../components/BlockRenderer.astro';
+import CommonHead from '../components/CommonHead.astro';
+
+//fix slug
+
+
+export async function getStaticPaths() {
+    const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query: `query PageQuery {
+                pages {
+                    nodes {
+                        uri
+                    }
+                }
+            }`,
+        }),
+    });
+
+    const { data } = await response.json();
+
+    return data.pages.nodes.map((page: any) => ({
+        params: { slug: page.uri === '/' ? undefined : page.uri },
+    }));
+}
+
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        query: `query PageQuery($uri: String!) {
+            nodeByUri(uri: $uri) {
+                ... on Page {
+                    id
+                    blocks
+                    seo {
+                        metaDesc
+                        title
+                    }
+                }
+            }
+        }`,
+        variables: {
+            uri: (Astro.params as { slug?: string })?.slug || '/',
+        },
+    }),
+});
+
+const { data } = await response.json();
+const { blocks, seo } = data.nodeByUri;
+---
+
+<html lang="en">
+    <CommonHead title={seo.title || ''} description={seo.metaDesc || ''} />
+    <body>
+        <BlockRenderer blocks={blocks || []} />
+    </body>
+</html>
