@@ -2,6 +2,7 @@
 import BlockRendererInner from './BlockRenderer.astro';
 import { getBlockStyling } from '@wp-block-tools/styles';
 import type { Block } from '@wp-block-tools/styles';
+import { Image } from 'astro:assets';
 type Props = {
     blocks: Block[];
 };
@@ -14,31 +15,57 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
-            case "core/paragraph":
+            case 'core/paragraph':
                 return (
-                    <p class={classes} style={styles} set:html={block.attributes?.content} />
+                    <p
+                        class={classes}
+                        style={styles}
+                        set:html={block.attributes?.content}
+                    />
                 );
 
-            case "core/columns":
+            case 'core/columns':
                 return (
                     <div class={classes} style={styles}>
                         <BlockRendererInner blocks={block.innerBlocks || []} />
                     </div>
                 );
 
-            case "core/column":
+            case 'core/column':
                 return (
                     <div class={classes} style={styles}>
                         <BlockRendererInner blocks={block.innerBlocks || []} />
                     </div>
                 );
-                
+
             case 'core/post-content':
                 return (
                     <div class={classes} style={styles}>
                         <BlockRendererInner blocks={block.innerBlocks || []} />
                     </div>
                 );
+
+            case 'core/group':
+                return (
+                    <div class={classes} style={styles}>
+                        <BlockRendererInner blocks={block.innerBlocks || []} />
+                    </div>
+                );
+
+            case "core/site-logo":
+                return (
+                    <div class={classes} style={styles}>
+                        <Image
+                            src={block.attributes?.url}
+                            alt="Site logo"
+                            width={block.attributes?.width}
+                            height={block.attributes?.width}
+                        />
+                    </div>
+                );
+
+            case 'core/template-part':
+                return <BlockRendererInner blocks={block.innerBlocks || []} />;
 
             default:
                 return null;
