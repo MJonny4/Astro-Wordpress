@@ -1,5 +1,6 @@
 ---
 import { joinClasses } from '../utils/joinClasses';
+import { replaceUrls } from '../utils/replaceUrls';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,10 +13,11 @@ type Props = {
 
 const { classes, styles, label, url } = Astro.props;
 const allClasses = joinClasses(classes, 'group relative');
+const href = replaceUrls(url, Astro.url.host)
 ---
 
 <li class={allClasses} style={styles}>
-    <a href={url}>
+    <a href={href}>
         {label} <FontAwesomeIcon icon={faChevronDown} className="pl-1 text-xs" />
     </a>
     <ul

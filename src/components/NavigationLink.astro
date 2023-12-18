@@ -6,9 +6,12 @@ type Props = {
     url: string;
 };
 
+import { replaceUrls } from '../utils/replaceUrls';
+
 const { classes, styles, label, url } = Astro.props;
+const href = replaceUrls(url, Astro.url.host);
 ---
 
 <li class={classes} style={styles}>
-    <a href={url}>{label}</a>
+    <a href={href}>{label}</a>
 </li>
