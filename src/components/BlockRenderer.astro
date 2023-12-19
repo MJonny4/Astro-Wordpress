@@ -21,6 +21,19 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
+            case "core/image":
+                return (
+                    <Image
+                        class={classes}
+                        style={styles}
+                        src={block.attributes?.url || ''}
+                        alt={block.attributes?.alt || ''}
+                        width={block.attributes?.width || 0}
+                        height={block.attributes?.height || 0}
+                        alt=""
+                    />
+                )
+
             case "core/button":
                 return <Button 
                     classes={classes}
