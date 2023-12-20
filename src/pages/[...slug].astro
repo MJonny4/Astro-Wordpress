@@ -1,4 +1,5 @@
 ---
+import type { Block } from '@wp-block-tools/styles';
 import BlockRenderer from '../components/BlockRenderer.astro';
 import CommonHead from '../components/CommonHead.astro';
 
@@ -9,15 +10,17 @@ export async function getStaticPaths() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            query: `query PageQuery {
-                pages {
+            query: `query AllPages {
+                pages(first: 1000) {
                     nodes {
                         uri
+                        blocks(attributes:false)
                     }
                 }
-                properties {
+                properties(first: 1000) {
                     nodes {
                         uri
+                        blocks(attributes:false)
                     }
                 }
             }`,
@@ -26,9 +29,26 @@ export async function getStaticPaths() {
 
     const { data } = await response.json();
 
-    return [...data.pages.nodes, ...data.properties.nodes].map((page: any) => ({
-        params: { slug: page.uri === '/' ? undefined : page.uri },
-    }));
+    return [...data.pages.nodes, ...data.properties.nodes]
+        .filter((page: any) => {
+            let found = false;
+            const hasPropertySearch = (blocks: Block[]) => {
+                for (let block of blocks) {
+                    if (block.name === 'astroestates/property-search') {
+                        found = true;
+                        break;
+                    }
+                    if (block.innerBlocks) {
+                        hasPropertySearch(block.innerBlocks);
+                    }
+                }
+            };
+            hasPropertySearch(page.blocks);
+            return !found;
+        })
+        .map((page: any) => ({
+            params: { slug: page.uri === '/' ? undefined : page.uri },
+        }));
 }
 
 const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
