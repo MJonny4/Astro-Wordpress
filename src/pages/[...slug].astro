@@ -2,8 +2,6 @@
 import BlockRenderer from '../components/BlockRenderer.astro';
 import CommonHead from '../components/CommonHead.astro';
 
-//fix slug
-
 export async function getStaticPaths() {
     const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
         method: 'POST',
