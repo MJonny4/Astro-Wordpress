@@ -4,7 +4,6 @@ import CommonHead from '../components/CommonHead.astro';
 
 //fix slug
 
-
 export async function getStaticPaths() {
     const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
         method: 'POST',
@@ -18,13 +17,18 @@ export async function getStaticPaths() {
                         uri
                     }
                 }
+                properties {
+                    nodes {
+                        uri
+                    }
+                }
             }`,
         }),
     });
 
     const { data } = await response.json();
 
-    return data.pages.nodes.map((page: any) => ({
+    return [...data.pages.nodes, ...data.properties.nodes].map((page: any) => ({
         params: { slug: page.uri === '/' ? undefined : page.uri },
     }));
 }
@@ -37,7 +41,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
     body: JSON.stringify({
         query: `query PageQuery($uri: String!) {
             nodeByUri(uri: $uri) {
-                ... on Page {
+                ... on ContentNode {
                     id
                     blocks
                     seo {
