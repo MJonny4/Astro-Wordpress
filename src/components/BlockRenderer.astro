@@ -25,6 +25,17 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
+            case 'core/gallery':
+                return (
+                    <div class={classes} style={styles}>
+                        {(block.innerBlocks || []).map((innerBlock) => (
+                            <div>
+                                <BlockRendererInner blocks={[innerBlock]} />
+                            </div>
+                        ))}
+                    </div>
+                );
+
             case 'astroestates/tick-item':
                 return (
                     <TickItem>
@@ -55,6 +66,7 @@ const { blocks } = Astro.props;
                     />
                 );
 
+            case "core/post-title":
             case 'core/heading':
                 return (
                     <Heading
@@ -132,12 +144,14 @@ const { blocks } = Astro.props;
                     </div>
                 );
             case 'core/social-link':
-                return <SocialLink 
-                    url={block.attributes?.url || ''}
-                    service={block.attributes?.service || ''}
-                    classes={classes}
-                    styles={styles}
-                />;
+                return (
+                    <SocialLink
+                        url={block.attributes?.url || ''}
+                        service={block.attributes?.service || ''}
+                        classes={classes}
+                        styles={styles}
+                    />
+                );
             case 'core/site-logo':
                 return (
                     <div class={classes} style={styles}>
