@@ -26,12 +26,12 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
-            case "astroestates/property-details":
+            case 'astroestates/property-details':
                 return (
-                    <PropertyDetails 
-                        price={block.attributes?.price || ''}
-                        bedrooms={block.attributes?.bedrooms || ''}
-                        bathrooms={block.attributes?.bathrooms || ''}
+                    <PropertyDetails
+                        price={block.attributes?.price || ""}
+                        bedrooms={block.attributes?.bedrooms || ""}
+                        bathrooms={block.attributes?.bathrooms || ""}
                     />
                 );
 
@@ -76,7 +76,7 @@ const { blocks } = Astro.props;
                     />
                 );
 
-            case "core/post-title":
+            case 'core/post-title':
             case 'core/heading':
                 return (
                     <Heading

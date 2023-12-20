@@ -1,4 +1,8 @@
 ---
+import { faBath, faBed } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import numeral from 'numeral';
+
 type Props = {
     price: string;
     bedrooms: string;
@@ -6,12 +10,19 @@ type Props = {
 };
 
 const { price, bedrooms, bathrooms } = Astro.props;
+const priceFormatted = numeral(price).format('0,0');
 ---
 
 <div class="bg-event-horizon max-w-sm mx-auto w-full text-white p-5">
-    <p class="text-center text-3xl">{price}</p>
+    <p class="text-center text-3xl">{priceFormatted}€</p>
     <div class="flex text-lg justify-center gap-8 pt-2">
-        <div>{bedrooms}</div>
-        <div>{bathrooms}</div>
+        <div>
+            <FontAwesomeIcon icon={faBed} className='pr-1' />
+            {bedrooms}
+        </div>
+        <div>
+            <FontAwesomeIcon icon={faBath} className='pr-1' />
+            {bathrooms}
+        </div>
     </div>
 </div>
