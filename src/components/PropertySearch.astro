@@ -1,5 +1,10 @@
 ---
-    
+const { searchParams } = Astro.url;
+
+const bedrooms = searchParams.get('bedrooms');
+const bathrooms = searchParams.get('bathrooms');
+const minPrice = searchParams.get('minPrice');
+const maxPrice = searchParams.get('maxPrice');
 ---
 
 <form method="get">
@@ -8,26 +13,50 @@
             <label for="bedrooms">
                 <strong>Min bedrooms</strong>
             </label>
-            <input class="w-full py-1 px-2 border border-event-horizon rounded-sm" type="number" name="bedrooms">
+            <input
+                class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+                type="number"
+                name="bedrooms"
+                value={bedrooms}
+            />
         </div>
         <div>
             <label for="bathrooms">
                 <strong>Min bathrooms</strong>
             </label>
-            <input class="w-full py-1 px-2 border border-event-horizon rounded-sm" type="number" name="bathrooms">
+            <input
+                class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+                type="number"
+                name="bathrooms"
+                value={bathrooms}
+            />
         </div>
         <div>
             <label for="minPrice">
                 <strong>Min price</strong>
             </label>
-            <input class="w-full py-1 px-2 border border-event-horizon rounded-sm" type="number" name="minPrice">
+            <input
+                class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+                type="number"
+                name="minPrice"
+                value={minPrice}
+            />
         </div>
         <div>
             <label for="maxPrice">
                 <strong>Max Price</strong>
             </label>
-            <input class="w-full py-1 px-2 border border-event-horizon rounded-sm" type="number" name="maxPrice">
+            <input
+                class="w-full py-1 px-2 border border-event-horizon rounded-sm"
+                type="number"
+                name="maxPrice"
+                value={maxPrice}
+            />
         </div>
     </fieldset>
-    <button type="submit" class="w-full text-white inline-block uppercase font-bold tracking-[0.08em] bg-event-horizon rounded-full py-3 px-6">Search</button>
+    <button
+        type="submit"
+        class="w-full text-white inline-block uppercase font-bold tracking-[0.08em] bg-event-horizon rounded-full py-3 px-6"
+        >Search</button
+    >
 </form>
