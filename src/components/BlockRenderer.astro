@@ -11,6 +11,7 @@ import Heading from './Heading.astro';
 import Button from './Button.astro';
 import SocialLink from './SocialLink.astro';
 import PropertyDetails from './PropertyDetails.astro';
+import PropertySearch from './PropertySearch.astro';
 
 import { getBlockStyling } from '@wp-block-tools/styles';
 import type { Block } from '@wp-block-tools/styles';
@@ -26,6 +27,13 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
+            case 'astroestates/property-search':
+                return (
+                    <PropertySearch
+                        
+                    />
+                );
+
             case 'astroestates/property-details':
                 return (
                     <PropertyDetails
