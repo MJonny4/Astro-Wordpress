@@ -1,4 +1,8 @@
 ---
+import { faBed, faBath } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Image } from 'astro:assets';
+import numeral from 'numeral';
 const { searchParams } = Astro.url;
 
 const bedrooms = searchParams.get('bedrooms');
@@ -63,3 +67,39 @@ const { properties } = await response.json();
         >Search</button
     >
 </form>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+    {
+        properties.map((property: any) => (
+            <a
+                href={property.uri}
+                class="p-2 border border-zinc-200 hover:bg-zinc-100"
+            >
+                {!!property.featuredImage && (
+                    <Image
+                        src={property.featuredImage.node.sourceUrl}
+                        height={property.featuredImage.node.mediaDetails.height}
+                        width={property.featuredImage.node.mediaDetails.width}
+                        alt={property.title}
+                        class={'h-40 w-full object-cover'}
+                    />
+                )}
+                <p class="pt-2">
+                    <strong>{property.title}</strong>
+                </p>
+                <p class="text-3xl">
+                    {numeral(property.propertyDetails.price).format('0,0')}€
+                </p>
+                <div class="flex gap-8">
+                    <div>
+                        <FontAwesomeIcon icon={faBed} className="pr-1" />
+                        {property.propertyDetails.bedrooms}
+                    </div>
+                    <div>
+                        <FontAwesomeIcon icon={faBath} className="pr-1" />
+                        {property.propertyDetails.bathrooms}
+                    </div>
+                </div>
+            </a>
+        ))
+    }
+</div>
