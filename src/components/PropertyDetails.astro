@@ -1,0 +1,17 @@
+---
+type Props = {
+    price: string;
+    bedrooms: string;
+    bathrooms: string;
+};
+
+const { price, bedrooms, bathrooms } = Astro.props;
+---
+
+<div class="bg-event-horizon max-w-sm mx-auto w-full text-white p-5">
+    <p class="text-center text-3xl">{price}</p>
+    <div class="flex text-lg justify-center gap-8 pt-2">
+        <div>{bedrooms}</div>
+        <div>{bathrooms}</div>
+    </div>
+</div>

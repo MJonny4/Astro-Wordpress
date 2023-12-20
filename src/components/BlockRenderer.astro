@@ -10,6 +10,7 @@ import Cover from './Cover.astro';
 import Heading from './Heading.astro';
 import Button from './Button.astro';
 import SocialLink from './SocialLink.astro';
+import PropertyDetails from './PropertyDetails.astro';
 
 import { getBlockStyling } from '@wp-block-tools/styles';
 import type { Block } from '@wp-block-tools/styles';
@@ -25,6 +26,15 @@ const { blocks } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
+            case "astroestates/property-details":
+                return (
+                    <PropertyDetails 
+                        price={block.attributes?.price || ''}
+                        bedrooms={block.attributes?.bedrooms || ''}
+                        bathrooms={block.attributes?.bathrooms || ''}
+                    />
+                );
+
             case 'core/gallery':
                 return (
                     <div class={classes} style={styles}>
