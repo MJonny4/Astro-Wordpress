@@ -1,5 +1,25 @@
 ---
-export const prerender = false
+export const prerender = false;
+
+import BlockRenderer from '../components/BlockRenderer.astro';
+import CommonHead from '../components/CommonHead.astro';
+
+const { ssr } = Astro.params;
+
+const response = await fetch(`${Astro.url.origin}/api/page-data${ssr ? `/${ssr}` : ''}.json`);
+
+const { data } = await response.json();
+
+if (!data) {
+    return Astro.redirect('/404');
+}
+
+const { blocks, seo } = data;
 ---
 
-<h3>This is an SSR</h3>
+<html lang="en">
+    <CommonHead title={seo.title || ''} description={seo.metaDesc || ''} />
+    <body>
+        <BlockRenderer blocks={blocks || []} />
+    </body>
+</html>
