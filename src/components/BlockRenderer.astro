@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 
+import ContactForm7 from './ContactForm7.tsx';
 import BlockRendererInner from './BlockRenderer.astro';
 import Navigation from './Navigation.astro';
 import NavigationLink from './NavigationLink.astro';
@@ -28,6 +29,13 @@ const { blocks, postId } = Astro.props;
         const { styles, classes } = getBlockStyling(block);
 
         switch (block.name) {
+            case 'contact-form-7/contact-form-selector':
+                return <ContactForm7 
+                    client:only="react"
+                    formId={block.attributes?.id || ''}
+                    formMarkup={block.attributes?.formMarkup || ''}
+                />;
+
             case 'astroestates/property-search':
                 return <PropertySearch />;
 

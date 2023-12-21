@@ -45,3 +45,15 @@
         bottom: 0;
     }
 }
+
+.wpcf7-form-control {
+    @apply border border-black p-2 w-full resize-none;
+}
+
+.wpcf7-form {
+    @apply max-w-sm;
+}
+
+.wpcf7-submit {
+    @apply bg-black text-white p-2 hover:bg-blast-off hover:text-black text-2xl font-bold;
+}
