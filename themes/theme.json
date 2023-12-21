@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 2,
+    "styles": {
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--roboto)"
+        },
+        "blocks": {
+            "core/button": {
+                "color": {
+                    "background": "var(--wp--preset--color--blast-off)",
+                    "text": "var(--wp--preset--color--starlight)"
+                },
+                "typography": {
+                    "fontWeight": "700",
+                    "textTransform": "uppercase",
+                    "letterSpacing": "1.3px"
+                }
+            }
+        }
+    },
+    "settings": {
+        "appearanceTools": true,
+        "typography": {
+            "fontFamilies": [
+                {
+                    "fontFamily": "Roboto",
+                    "name": "Roboto",
+                    "slug": "roboto",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Roboto",
+                            "fontWeight": 400,
+                            "fontStyle": "normal",
+                            "src": [
+                                "file:./assets/fonts/roboto-slab-latin-400-normal.ttf"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "layout": {
+            "contentSize": "800px",
+            "wideSize": "1100px"
+        },
+        "color": {
+            "palette": [
+                {
+                    "color": "#ffffff",
+                    "name": "Starlight",
+                    "slug": "starlight"
+                },
+                {
+                    "color": "#000000",
+                    "name": "Black hole",
+                    "slug": "black-hole"
+                },
+                {
+                    "color": "#0c0720",
+                    "name": "Event horizon",
+                    "slug": "event-horizon"
+                },
+                {
+                    "color": "#ff7e33",
+                    "name": "Blast off",
+                    "slug": "blast-off"
+                }
+            ]
+        }
+    }
+}
