@@ -117,18 +117,21 @@ filteredProperties = filteredProperties.slice(offset, offset + pageSize);
                         class={'h-40 w-full object-cover'}
                     />
                 )}
-                <p class="pt-2">
+                <p
+                    class="pt-2"
+                    transition:name={`post-title-${property.databaseId}`}
+                >
                     <strong>{property.title}</strong>
                 </p>
-                <p class="text-3xl">
+                <p class="text-3xl" transition:name={`price-${property.databaseId}`}>
                     {numeral(property.propertyDetails.price).format('0,0')}€
                 </p>
                 <div class="flex gap-8">
-                    <div>
+                    <div transition:name={`beds-${property.databaseId}`}>
                         <FontAwesomeIcon icon={faBed} className="pr-1" />
                         {property.propertyDetails.bedrooms}
                     </div>
-                    <div>
+                    <div transition:name={`baths-${property.databaseId}`}>
                         <FontAwesomeIcon icon={faBath} className="pr-1" />
                         {property.propertyDetails.bathrooms}
                     </div>
@@ -137,7 +140,7 @@ filteredProperties = filteredProperties.slice(offset, offset + pageSize);
         ))
     }
 </div>
-<div class="flex gap-2 justify-center">
+<div class="flex gap-2 justify-center pb-8">
     {
         Array.from({ length: totalPages }).map((_, i) => (
             <a

@@ -14,12 +14,12 @@ if (!data) {
     return Astro.redirect('/404');
 }
 
-const { blocks, seo } = data;
+const { blocks, seo, databaseId } = data;
 ---
 
 <html lang="en">
     <CommonHead title={seo.title || ''} description={seo.metaDesc || ''} />
     <body>
-        <BlockRenderer blocks={blocks || []} />
+        <BlockRenderer blocks={blocks || []} postId={databaseId} />
     </body>
 </html>
