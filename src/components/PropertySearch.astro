@@ -9,28 +9,43 @@ const bedrooms = searchParams.get('bedrooms');
 const bathrooms = searchParams.get('bathrooms');
 const minPrice = searchParams.get('minPrice');
 const maxPrice = searchParams.get('maxPrice');
+const page = searchParams.get('page');
+
+searchParams.delete('page');
+const searchParamsString = searchParams.toString();
 
 const response = await fetch(`${Astro.url.origin}/api/properties.json`);
 const { properties } = await response.json();
 
 let filteredProperties = properties;
-if (bedrooms && !isNaN(parseInt(bedrooms))){
+if (bedrooms && !isNaN(parseInt(bedrooms))) {
     filteredProperties = filteredProperties.filter((property: any) => {
         return property.propertyDetails.bedrooms >= parseInt(bedrooms);
     });
 }
 
-if (bathrooms && !isNaN(parseInt(bathrooms))){
+if (bathrooms && !isNaN(parseInt(bathrooms))) {
     filteredProperties = filteredProperties.filter((property: any) => {
         return property.propertyDetails.bathrooms >= parseInt(bathrooms);
     });
 }
 
-if(maxPrice && !isNaN(parseInt(maxPrice))){
+if (minPrice && !isNaN(parseInt(minPrice))) {
+    filteredProperties = filteredProperties.filter((property: any) => {
+        return property.propertyDetails.price >= parseInt(minPrice);
+    });
+}
+
+if (maxPrice && !isNaN(parseInt(maxPrice))) {
     filteredProperties = filteredProperties.filter((property: any) => {
         return property.propertyDetails.price <= parseInt(maxPrice);
     });
 }
+const pageSize = 3;
+const totalPages = Math.ceil(filteredProperties.length / pageSize);
+const pageNumber = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1;
+const offset = (pageNumber - 1) * pageSize;
+filteredProperties = filteredProperties.slice(offset, offset + pageSize);
 ---
 
 <form method="get">
@@ -118,6 +133,26 @@ if(maxPrice && !isNaN(parseInt(maxPrice))){
                         {property.propertyDetails.bathrooms}
                     </div>
                 </div>
+            </a>
+        ))
+    }
+</div>
+<div class="flex gap-2 justify-center">
+    {
+        Array.from({ length: totalPages }).map((_, i) => (
+            <a
+                class={`block px-3 py-2 rounded-md ${
+                    i + 1 === pageNumber
+                        ? `bg-event-horizon text-white`
+                        : `bg-zinc-200 hover:bg-zinc-300`
+                }`}
+                href={`?${
+                    searchParamsString
+                        ? `${searchParamsString}&page=${i + 1}`
+                        : `page=${i + 1}`
+                }`}
+            >
+                {i + 1}
             </a>
         ))
     }
